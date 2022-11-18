@@ -33,6 +33,9 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
   # run lint!
+  lint: 
+    docker:
+      - image: python:3.7.3-stretch
       - run:
           name: run lint
           command: |
