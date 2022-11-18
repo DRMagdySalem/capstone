@@ -12,4 +12,4 @@ docker image ls
 
 # Step 3: 
 #  Run flask app
-timeout 40s docker run -p 8000:80 kube_proj
+# docker run -p 8000:80 kube_proj
