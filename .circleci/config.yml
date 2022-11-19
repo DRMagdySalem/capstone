@@ -103,8 +103,7 @@ jobs:
             sudo mv kubectl /usr/local/bin
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
             sudo mv /tmp/eksctl /usr/local/bin
-            eksctl create cluster --name caps --region=us-east-1
-            sleep 60
+            eksctl create cluster --name caps --region=us-east-1 --zones us-east-1a,us-east-1b
             ./run_kubernetes.sh
       - save_cache:    
           paths:
