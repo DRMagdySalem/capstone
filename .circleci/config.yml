@@ -82,7 +82,7 @@ jobs:
           
   kubernetes_cluster: 
     docker:
-      - image: python:3.7.3-stretch
+      - image: circleci/python:2.7.14
     working_directory: ~/repo   
     steps:
       - checkout
