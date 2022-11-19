@@ -98,6 +98,9 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
+            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+            unzip awscli-bundle.zip
+            sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
             curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/amd64/kubectl
             chmod +x kubectl 
             sudo mv kubectl /usr/local/bin
@@ -105,6 +108,7 @@ jobs:
             sudo mv /tmp/eksctl /usr/local/bin
             eksctl create cluster --name caps1 --region=us-east-1 --zones us-east-1a,us-east-1b
             eksctl get cluster
+            aws eks update-kubeconfig --name caps1
             kubectl get nodes 
             ./run_kubernetes.sh
       - save_cache:    
@@ -154,9 +158,8 @@ workflows:
       - build
       - lint:
           requires: [build]
-     # - docker-build:
-     #     requires: [build]
-      #- kubernetes_cluster:
-       #   requires: [build]
-    #      requires: [docker-build]
-      - kube_deploy
+      - docker-build:
+          requires: [build]
+      - kubernetes_cluster:
+          requires: [docker-build]
+      #- kube_deploy
