@@ -107,6 +107,7 @@ jobs:
             eksctl get cluster
             kubectl get nodes 
             ./run_kubernetes.sh
+            
       - save_cache:    
           paths:
             - ./venv
