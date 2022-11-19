@@ -142,6 +142,7 @@ jobs:
             aws eks update-kubeconfig --name caps1
             kubectl get nodes 
             ./run_kubernetes.sh
+            curl  http://localhost:8000
       - save_cache:    
           paths:
             - ./venv
