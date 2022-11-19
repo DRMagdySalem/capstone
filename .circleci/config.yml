@@ -82,7 +82,7 @@ jobs:
           
   kubernetes_cluster: 
     docker:
-      - image: circleci/golang:1.15
+      - image: python:3.7.3-stretch
     working_directory: ~/repo   
     steps:
       - checkout
