@@ -1,30 +1,57 @@
 circleci badge :
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DRMagdySalem/kube_project/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/DRMagdySalem/kube_project/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DRMagdySalem/capstone/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/DRMagdySalem/capstone/tree/main)
 
-in this Project ; our target was to operationalize machine learning microservice using docker and kubernetes .
-let's get a walk through the project and the steps we passed : 
+github repo : https://github.com/DRMagdySalem/capstone.git
 
-1) we started by ceating an environment and setting up this environment with all needed dependencies that we could need though our path .
-used command: 
--command: | python3 -m venv venv  : create virtual environment 
--source ~/.devops/bin/activate : activate the virtual environment
--make install : install the needed dependencies listed in the "requirements.txt" file 
-2) then we used linting facilities of pylint and hadolint to rate our code and check for errors .
-used command : Make Lint 
-3) after completing the "run_docker.sh" and "app.py"  files we ran the docker script through :./run_docker.sh to build the docker image and run the built image 
-files: 
-run_docker.sh : contains the commands for building and running the needed docker image 
-app.py : carry the logig needed for predictions API operation which is the project target .
-4) after running the image we used the ./make_prediction.sh script to test the logic and the functionality of the app and the built image .
-we saved also an output for the prediction process in : output_txt_files/docker_out.txt 
+dockerhub repo : https://hub.docker.com/repository/docker/magdysalemm/kube_proj
 
-5) after successfull build we moved to the step of publishing the image to docker hub through ./upload_docker.sh after adding the tag , 
-the authentication is done through my terminal not to expose the user and passowrd but you can find the image on : 
-https://hub.docker.com/repository/docker/magdysalemm/kube_proj
 
-6) after that we moved to creating a kubernetes cluster using " minikube start " command after installing minikube and kubectl  .
-7) then we used the run_kubernetes.sh script to Run the Docker Hub container with kubernetes and Forward the container port to a host .
-8) and we tested again the prediction through the make_prediction script and saved the output to : output_txt_files/kubernetes_out.txt
-9) we also created the .circleci directory carrying the config.yml file to test the build though circleci and passed as in the following badge :
+in this project our target is to build a CI/CD pipeline for our flask application , using docker facilities in the continuous integration process and publishing an image of the containerized app , while using kubernetes facilities in continuous deployments to use the containerized image to newly built clusters.
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DRMagdySalem/kube_project/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/DRMagdySalem/kube_project/tree/main)
+pipeline sections : 
+
+1) build :
+
+in this section we built an environment and set all the needed dependencies for linting our code and building the docker image .
+
+2) lint :
+
+in this section we used the pylint and hadolint facilities to test and rate validate the code .
+
+3) docker-build :
+
+in this section we managed to tag and build the needed docker image for our app , and after that publishing the docker image to docker hub to be furtherly used in deployments 
+
+4) Kubernetes-cluster:
+
+in this section ; our target was to build a kubernetes cluster using amazon EKS facilities , and after that deploying the containerized image from dockehub to the cluster .
+
+
+Project files :
+
+1) Makefile : contains the needed commands for installing depencies from the requirements.txt file and also for linting the code through hadolint and pylint .
+
+2) Dockerfile : used for copying the application files "app.py" to the environment to be dockerized and exposing the needed port 
+
+3) app.py : carrying the logic for the flask application API to set the right predictions .
+
+4) Make_predictions.sh : a shell script for testing the API functionality by applying a simple prediction 
+
+5) upload_docker.sh : used for setting the paths to wich the docker image will be published and proceed in publishing the image
+
+6) requirements.txt : carrying the needed requirements for the environment that will be installed using the Makefile .
+
+7) model_data directory : carrying the needed libraries and data models for the predictions application .
+
+8) run_docker.sh : for taging and building the docker image .
+
+9) run_kubernete.sh : a shell script used for deploying the docker image to the kubernetes cluster nodes and forwading the container port to a host .
+
+10) EKS_cluster_template.txt : contains the template used for creating the EKS cluster 
+
+11) node-group_template.txt : contains the template used for creating the node-group
+
+12) .circleci/config : the circleci configuration file for controlling the whole pipeline from integration to deployment .
+
+screenshots provided for the pipleline processes.
+
