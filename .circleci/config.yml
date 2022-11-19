@@ -104,6 +104,39 @@ jobs:
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
             sudo mv /tmp/eksctl /usr/local/bin
             eksctl create cluster --name caps1 --region=us-east-1 --zones us-east-1a,us-east-1b
+            eksctl get cluster
+            kubectl get nodes 
+            ./run_kubernetes.sh
+      - save_cache:    
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+  
+  kube_deploy: 
+    docker:
+      - image: circleci/python:3.7.3-stretch
+    working_directory: ~/repo   
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+        # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: deploy
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/amd64/kubectl
+            chmod +x kubectl 
+            sudo mv kubectl /usr/local/bin
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+            sudo mv /tmp/eksctl /usr/local/bin
+            eksctl get cluster
+            kubectl get nodes 
             ./run_kubernetes.sh
       - save_cache:    
           paths:
@@ -118,6 +151,7 @@ workflows:
           requires: [build]
      # - docker-build:
      #     requires: [build]
-      - kubernetes_cluster:
-          requires: [build]
+      #- kubernetes_cluster:
+       #   requires: [build]
     #      requires: [docker-build]
+      - kube_deploy
