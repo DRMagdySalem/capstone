@@ -132,7 +132,7 @@ jobs:
             . venv/bin/activate
             curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
             unzip awscli-bundle.zip
-            ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+            sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
             curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/amd64/kubectl
             chmod +x kubectl 
             sudo mv kubectl /usr/local/bin
