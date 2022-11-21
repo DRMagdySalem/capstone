@@ -72,10 +72,10 @@ jobs:
       - run:
           name: docker-build
           command: |
+            dig TXT +short o-o.myaddr.l.google.com @ns1.google.com
+            hostname -i
             ./run_docker.sh
             docker login -u "magdysalemm" -p "$dockerhub_pass"
-            hostname -i
-            dig TXT +short o-o.myaddr.l.google.com @ns1.google.com
             ./upload_docker.sh
       - save_cache:    
           paths:
