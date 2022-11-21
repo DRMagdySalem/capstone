@@ -14,6 +14,7 @@ kubectl create deploy kube-proj --image=magdysalemm/kube_proj:v1.0.0
 # Step 3:
 # List kubernetes pods
 kubectl get deploy,rs,svc,pods
+pod=kubectl get pods |grep kube |awk '{print $1}'
 # Step 4:
 # Forward the container port to a host
-kubectl port-forward pod/kube-proj-588488d5f-b6cpn --address 0.0.0.0 8000:80
+#kubectl port-forward pod/$pod --address 0.0.0.0 8000:80
